@@ -1,0 +1,20 @@
+{
+  "name": "env-json",
+  "version": "1.0.0",
+  "description": "Equivalent to dotenv but for json files.",
+  "main": "index.js",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eiwosstdma/env-json"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "env",
+    "dotenv"
+  ],
+  "author": "eiwosstdma <eiwos.studio@gmail.com>",
+  "license": "ISC"
+}

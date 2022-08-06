@@ -1,5 +1,5 @@
 {
-  "name": "env-json",
+  "name": "dotenv-for-json",
   "version": "1.0.0",
   "description": "Equivalent to dotenv but for json files.",
   "main": "index.js",

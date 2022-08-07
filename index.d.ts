@@ -1,1 +1,1 @@
-export function envJson (file: string | undefined): void;
+export function envJson (file?: string): void;

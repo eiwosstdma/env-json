@@ -2,28 +2,29 @@ const { resolve } = require('node:path');
 const { readFileSync } = require('node:fs');
 
 /**
- * Either use a file name or let it undefined if you're using the default "config.json" from the root application directory.
- * @param file { string | undefined }
- * @return void
+ * @param file { string? }
+ * @return {boolean}
  */
-const dotJson = (file) => {
+function envJson (file) {
   const fileName = (typeof file === 'string') ? file : 'config';
-  const pathToTheFile = resolve(process.cwd(), fileName);
+  const pathOfTheFile = resolve(process.cwd(), `${fileName}.json`);
 
   try {
-    const fileData = readFileSync(pathToTheFile);
+    const fileData = readFileSync(pathOfTheFile);
     const parsedData = JSON.parse(fileData.toString());
 
     if (fileData.length >= 1) {
-      for (const { key, value } of parsedData) {
-        process.env[`conf-${key}`] = value;
+      for (const [key, value] of Object.entries(parsedData)) {
+        process.env[`${fileName}::${key}`] = String(value);
       }
     }
+
+    return true;
   } catch(e) {
     throw new Error(`Something goes wrong. Please verify that the file does exist.`);
   }
-};
+}
 
 module.exports = {
-  dotJson
+  envJson
 };

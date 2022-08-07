@@ -4,7 +4,7 @@ const { resolve } = require('node:path');
 const { envJson } = require('./index.js');
 
 const testIndex = () => {
-  const nameOfTheFile = 'configure';
+  const nameOfTheFile = 'conf';
   const pathOfTheFile = resolve(process.cwd(), `${nameOfTheFile}.json`);
   const dataOfTheFile = { hello: 'world' };
 
@@ -12,7 +12,7 @@ const testIndex = () => {
 
   writeFileSync(pathOfTheFile, JSON.stringify(dataOfTheFile));
 
-  const something = envJson(nameOfTheFile);
+  const something = envJson(nameOfTheFile, { isPrefix: false });
 
   console.log(process.env);
 

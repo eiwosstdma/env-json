@@ -21,6 +21,9 @@ It works directly within your typescript.
 envJson(); // By default will search for a 'conf.json' file
 envJson('custom-file'); // Will search for a 'custom-file.json' file
 ```
+```javascript
+envJson({ isPrefix: false })
+```
 
 ### Example and Result :
 

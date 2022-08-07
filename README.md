@@ -22,7 +22,8 @@ envJson(); // By default will search for a 'conf.json' file
 envJson('custom-file'); // Will search for a 'custom-file.json' file
 ```
 ```javascript
-envJson({ isPrefix: false })
+envJson({ isPrefix: false }); // Will not put prefix before the name of the keys
+envJson({ isPrefix: true, prefixName: 'a' }); // Will prefix with a_ before keys name
 ```
 
 ### Example and Result :

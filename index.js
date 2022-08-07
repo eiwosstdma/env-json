@@ -6,7 +6,7 @@ const { readFileSync } = require('node:fs');
  * @return {boolean}
  */
 function envJson (file) {
-  const fileName = (typeof file === 'string') ? file : 'config';
+  const fileName = (typeof file === 'string') ? file : 'conf';
   const pathOfTheFile = resolve(process.cwd(), `${fileName}.json`);
 
   try {
@@ -15,7 +15,7 @@ function envJson (file) {
 
     if (fileData.length >= 1) {
       for (const [key, value] of Object.entries(parsedData)) {
-        process.env[`${fileName}::${key}`] = String(value);
+        process.env[`${fileName}_${key}`] = String(value);
       }
     }
 

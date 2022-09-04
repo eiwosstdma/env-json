@@ -2,6 +2,9 @@
 
 A simple module to add json-file configuration directly to process.env.
 
+> **Warning**
+> Map it directly as it is within process.env, so nested Objects are still with the first key of the tree
+
 ### How to import :
 ```javascript
 //ESM

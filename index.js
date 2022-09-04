@@ -1,4 +1,4 @@
-const { resolve, e } = require('node:path');
+const { resolve } = require('node:path');
 const { readFileSync } = require('node:fs');
 const { readFile } = require('node:fs/promises');
 
@@ -15,7 +15,7 @@ function envJsonSync (file, options) {
 
   try {
     const fileData = readFileSync(pathOfTheFile);
-    const parsedData = file.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
+    const parsedData = fileData.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
 
     if (isPrefix) {
       for (const [key, value] of Object.entries(parsedData)) {
@@ -47,7 +47,7 @@ async function envJson (file, options) {
 
   try  {
     const fileData = await readFile(pathOfTheFile);
-    const parsedData = file.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
+    const parsedData = fileData.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
 
     if (isPrefix) {
       for (const [key, value] of Object.entries(parsedData)) {

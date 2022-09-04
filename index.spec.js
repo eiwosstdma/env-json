@@ -1,24 +1,21 @@
-const assert = require('node:assert/strict');
-const { existsSync, writeFileSync, rmSync } = require('node:fs');
+const { deepStrictEqual } = require('node:assert');
 const { resolve } = require('node:path');
-const { envJson } = require('./index.js');
+const { writeFileSync, rmSync } = require('node:fs');
 
-const testIndex = () => {
-  const nameOfTheFile = 'conf';
-  const pathOfTheFile = resolve(process.cwd(), `${nameOfTheFile}.json`);
-  const dataOfTheFile = { hello: 'world' };
+const { envJson, envJsonSync } = require('./index.js');
 
-  console.log(pathOfTheFile);
+(() => {
+  const pathToFile = resolve('./conf.json');
+  const obj = { hello: 'world' };
+  try {
+    writeFileSync(pathToFile, JSON.stringify(obj));
 
-  writeFileSync(pathOfTheFile, JSON.stringify(dataOfTheFile));
+    envJsonSync();
 
-  const something = envJson(nameOfTheFile, { isPrefix: false });
+    deepStrictEqual(process.env.conf_hello, 'world');
+  } catch (err) {
+    console.log(err);
+  }
 
-  console.log(process.env);
-
-  rmSync(pathOfTheFile);
-
-  assert.deepEqual(something, true);
-};
-
-testIndex();
+  rmSync(pathToFile);
+})();

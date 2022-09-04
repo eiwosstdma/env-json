@@ -3,4 +3,5 @@ interface Options {
   prefixName?: string;
 }
 
-export function envJson (file?: string, options?: Options): void;
+export function envJsonSync (file?: string, options?: Options): boolean;
+export function envJson (file?: string, options?: Options): Promise<boolean>;

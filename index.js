@@ -1,12 +1,13 @@
-const { resolve } = require('node:path');
+const { resolve, e } = require('node:path');
 const { readFileSync } = require('node:fs');
+const { readFile } = require('node:fs/promises');
 
 /**
  * @param file { string? }
- * @param options { { isPrefix: boolean, prefixName: string? }? }
+ * @param options {{ isPrefix: boolean, prefixName: string? }?}
  * @return {boolean}
  */
-function envJson (file, options) {
+function envJsonSync (file, options) {
   const isPrefix = (typeof options?.isPrefix === 'boolean') ? options.isPrefix : true;
   const fileName = (file !== undefined) ? String(file) : 'conf';
   const prefixName = (typeof options?.prefixName === 'string') ? options.prefixName : fileName;
@@ -14,11 +15,7 @@ function envJson (file, options) {
 
   try {
     const fileData = readFileSync(pathOfTheFile);
-    const parsedData = JSON.parse(fileData.toString());
-
-    if (fileData.length === 0) {
-      return false;
-    }
+    const parsedData = file.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
 
     if (isPrefix) {
       for (const [key, value] of Object.entries(parsedData)) {
@@ -31,11 +28,45 @@ function envJson (file, options) {
     }
 
     return true;
-  } catch(e) {
-    throw new Error(`Something goes wrong. Please verify that the file does exist.`);
+  } catch(err) {
+    console.log(err);
+    return false;
+  }
+}
+
+/**
+ * @param file { string? }
+ * @param options {{ isPrefix: boolean, prefixName: string? }?}
+ * @return {Promise<boolean>}
+ */
+async function envJson (file, options) {
+  const isPrefix = (typeof options?.isPrefix === 'boolean') ? options.isPrefix : true;
+  const fileName = (file !== undefined) ? String(file) : 'conf';
+  const prefixName = (typeof options?.prefixName === 'string') ? options.prefixName : fileName;
+  const pathOfTheFile = resolve(process.cwd(), `${fileName}.json`);
+
+  try  {
+    const fileData = await readFile(pathOfTheFile);
+    const parsedData = file.length === 0 ? { } : JSON.parse(fileData.toString('utf-8')) ;
+
+    if (isPrefix) {
+      for (const [key, value] of Object.entries(parsedData)) {
+        process.env[`${prefixName}_${key}`] = String(value);
+      }
+    } else {
+      for (const [key, value] of Object.entries(parsedData)) {
+        process.env[`${key}`] = String(value);
+      }
+    }
+
+    return true;
+  } catch(err) {
+    console.log(err);
+    return false;
   }
 }
 
 module.exports = {
+  envJsonSync,
   envJson
 };
